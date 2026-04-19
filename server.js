@@ -28,7 +28,7 @@ app.set("io", io);
 
 // ✅ CORS (VERY IMPORTANT)
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: true, // Reflects the exact origin of the request, bypassing strict CORS mismatch errors
   credentials: true
 }));
 
