@@ -1,6 +1,35 @@
 const Doctor = require("../models/doctor");
 const User = require("../models/user");
 
+exports.listDoctors = async (_req, res) => {
+  try {
+    const doctors = await Doctor.find().populate({
+      path: "userId",
+      select: "name email role isVerified verificationStatus"
+    });
+
+    const formattedDoctors = doctors
+      .filter((doctor) => doctor.userId && doctor.userId.role === "doctor")
+      .map((doctor) => ({
+        _id: doctor._id,
+        userId: doctor.userId._id,
+        name: doctor.userId.name,
+        email: doctor.userId.email,
+        isVerified: doctor.userId.isVerified,
+        verificationStatus: doctor.userId.verificationStatus,
+        specialization: doctor.specialization,
+        price: doctor.price,
+        availability: doctor.availability,
+        isOnline: doctor.isOnline
+      }))
+      .filter((doctor) => doctor.isVerified);
+
+    return res.json({ doctors: formattedDoctors });
+  } catch (error) {
+    return res.status(500).json({ msg: "Server error", error: error.message });
+  }
+};
+
 exports.createDoctorProfile = async (req, res) => {
   try {
     const { specialization, price } = req.body;
