@@ -74,8 +74,7 @@ exports.register = async (req, res) => {
       email: user.email,
       role: user.role,
       isVerified: user.isVerified,
-      verificationStatus: user.verificationStatus,
-      doctorInfo: user.doctorInfo
+      verificationStatus: user.verificationStatus
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -122,8 +121,7 @@ exports.login = async (req, res) => {
         email: user.email,
         role: user.role,
         isVerified: user.isVerified,
-        verificationStatus: user.verificationStatus,
-        doctorInfo: user.doctorInfo
+        verificationStatus: user.verificationStatus
       }
     });
   } catch (error) {
