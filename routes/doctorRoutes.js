@@ -5,9 +5,11 @@ const authMiddleware = require("../middleware/authMiddleware");
 const {
   createDoctorProfile,
   setAvailability,
-  toggleOnlineStatus
+  toggleOnlineStatus,
+  listDoctors
 } = require("../controllers/doctorController");
 
+router.get("/", listDoctors);
 router.post("/profile", authMiddleware, createDoctorProfile);
 router.post("/availability", authMiddleware, setAvailability);
 router.put("/toggle", authMiddleware, toggleOnlineStatus);

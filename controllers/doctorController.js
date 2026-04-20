@@ -82,3 +82,22 @@ exports.toggleOnlineStatus = async (req, res) => {
     return res.status(500).json({ msg: "Server error", error: error.message });
   }
 };
+
+exports.listDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find().populate("userId", "name email");
+    
+    const formattedDoctors = doctors.map(doc => ({
+      _id: doc._id,
+      name: doc.userId?.name || "Unknown",
+      specialization: doc.specialization,
+      price: doc.price,
+      availability: doc.availability || [],
+      isOnline: doc.isOnline || false
+    }));
+
+    return res.json(formattedDoctors);
+  } catch (error) {
+    return res.status(500).json({ msg: "Server error", error: error.message });
+  }
+};
